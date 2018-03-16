@@ -3,7 +3,8 @@ import sys
 
 def calc_tax(Epy_id,tax_rate,tax_kc):
     fax_gl = salary_gl*tax_rate - tax_kc
-    return print(Epy_id+':'+format(fax_gl,".2f"))
+    last_salary = Salary_int*0.835-fax_gl
+    return print(Epy_id+':'+format(last_salary,".2f"))
 
 #参数处理
 #遍历所有参数组格式为tim:3333 william:6666
@@ -20,7 +21,7 @@ for arg in sys.argv[1:]:
     salary_gl = Salary_int*0.835-3500
 
     if int(salary_gl<=0):
-        print(Employee_ID+":"+"0")
+        print(Employee_ID+":"+format(Salary_int*0.835,".2f"))
     elif salary_gl <= 1500 and salary_gl>0:
         calc_tax(Employee_ID,0.03,0)
     elif salary_gl <= 4500 and salary_gl>1500:
