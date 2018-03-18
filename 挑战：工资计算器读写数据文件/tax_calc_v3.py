@@ -80,12 +80,19 @@ class employee:
         tx =ylssde*tax_rate-tax_kouchu
         return tx
 
+args = sys.argv[1:]
+index = args.index('-c')
+configfile = args[index+1]
+index = args.index('-d')
+userfile = args[index+1]
+index = args.index('-o')
+outfile = args[index+1]
 
 
-getshebao = config('test.cfg')
+getshebao = config(configfile)
 sb_table = getshebao.get_shebao_cs()
 print(sb_table,type(sb_table))
-getshebao = config('user.csv')
+getshebao = config(userfile)
 employe_table = getshebao.get_shebao_cs()
 print(employe_table)
 
@@ -93,5 +100,10 @@ for key,value in employe_table.items():
     need_sb=employee(value).calculate_shebao()
     need_tx=employee(value).calculate_geshui()
     little_salary = value- need_sb - need_tx
+    out = key+','+str(value)+','+str(format(need_sb,".2f"))+','+str(format(need_tx,".2f"))+','+str(format(little_salary,".2f"))+'\n'
     print(key+','+str(value)+','+str(format(need_sb,".2f"))+','+str(format(need_tx,".2f"))+','+str(format(little_salary,".2f")))
+    with open(outfile,'a') as f:
+        f.write(out)
+
+
   #  print(key+"需缴纳个人所得税："+str(need_tx))
