@@ -50,6 +50,36 @@ class employee:
             sb = self.employee*(YangLao+YiLiao+ShiYe+GongShang+ShengYu+GongJiJin)
         return sb
     def calculate_geshui(self):
+        ylssde = self.employee-need_sb-3500
+        if ylssde < 0:
+            ylssde =0
+            tax_rate = 0
+            tax_kouchu = 0
+          #  print(ylssde,self.employee)
+        if ylssde <= 1500 and ylssde>=0:
+            tax_rate = 0.03
+            tax_kouchu = 0
+        elif ylssde >1500 and ylssde<=4500:
+            tax_rate = 0.1
+            tax_kouchu = 105
+        elif ylssde >4500 and ylssde<=9000:
+            tax_rate = 0.2
+            tax_kouchu = 555
+        elif ylssde >9000 and ylssde<=35000:
+            tax_rate = 0.25
+            tax_kouchu = 1005
+        elif ylssde >35000 and ylssde<=55000:
+            tax_rate = 0.3
+            tax_kouchu = 2755
+        elif ylssde >55000 and ylssde<=80000:
+            tax_rate = 0.35
+            tax_kouchu = 5505
+        elif ylssde >80000:
+            tax_rate = 0.45
+            tax_kouchu = 13505
+        tx =ylssde*tax_rate-tax_kouchu
+        return tx
+
 
 
 getshebao = config('test.cfg')
@@ -61,4 +91,7 @@ print(employe_table)
 
 for key,value in employe_table.items():
     need_sb=employee(value).calculate_shebao()
-    print(key+"需缴纳社保："+str(need_sb))
+    need_tx=employee(value).calculate_geshui()
+    little_salary = value- need_sb - need_tx
+    print(key+','+str(value)+','+str(format(need_sb,".2f"))+','+str(format(need_tx,".2f"))+','+str(format(little_salary,".2f")))
+  #  print(key+"需缴纳个人所得税："+str(need_tx))
